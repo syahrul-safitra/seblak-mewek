@@ -1,8 +1,8 @@
-@extends('Admin.Layouts.main')
+@extends("Admin.Layouts.main")
 
-@section('title', 'Tambah Produk')
+@section("title", "Tambah Produk")
 
-@section('container')
+@section("container")
     <div class="row justify-content-center">
         <div class="col-lg-12">
 
@@ -14,7 +14,7 @@
                         Tambah Produk Seblak
                     </h5>
 
-                    <form action="{{ url('product') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ url("product") }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="row g-3">
@@ -22,9 +22,9 @@
                             <!-- NAMA -->
                             <div class="col-md-6">
                                 <label class="form-label">Nama Produk</label>
-                                <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                    name="nama" value="{{ old('nama') }}" placeholder="Contoh: Seblak Ceker" autofocus>
-                                @error('nama')
+                                <input type="text" class="form-control @error("nama") is-invalid @enderror"
+                                    name="nama" value="{{ old("nama") }}" placeholder="Contoh: Seblak Ceker" autofocus>
+                                @error("nama")
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -32,7 +32,7 @@
                             <!-- KATEGORI -->
                             {{-- <div class="col-md-6">
                                 <label class="form-label">Kategori</label>
-                                <select name="kategori" class="form-select @error('kategori') is-invalid @enderror">
+                                <select name="kategori" class="form-select @error("kategori") is-invalid @enderror">
                                     <option value="">-- Pilih Kategori --</option>
                                     <option value="tidak pedas" {{ old('kategori') == 'tidak pedas' ? 'selected' : '' }}>
                                         Tidak Pedas
@@ -42,7 +42,7 @@
                                         Sangat Pedas
                                     </option>
                                 </select>
-                                @error('kategori')
+                                @error("kategori")
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div> --}}
@@ -57,7 +57,7 @@
                                 <!-- INPUT ASLI (BE) -->
                                 <input type="hidden" name="harga" id="harga">
 
-                                @error('harga')
+                                @error("harga")
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
 
@@ -67,9 +67,9 @@
                             <div class="col-md-12">
                                 <label class="form-label">Jumlah / Stok</label>
                                 <input type="number" min="0"
-                                    class="form-control @error('jumlah') is-invalid @enderror" name="jumlah"
-                                    value="{{ old('jumlah') }}">
-                                @error('jumlah')
+                                    class="form-control @error("jumlah") is-invalid @enderror" name="jumlah"
+                                    value="{{ old("jumlah") }}">
+                                @error("jumlah")
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -77,9 +77,9 @@
                             <!-- DESKRIPSI -->
                             <div class="col-12">
                                 <label class="form-label">Deskripsi</label>
-                                <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" rows="3" maxlength="200"
-                                    placeholder="Deskripsi singkat produk (maks 200 karakter)">{{ old('deskripsi') }}</textarea>
-                                @error('deskripsi')
+                                <textarea class="form-control @error("deskripsi") is-invalid @enderror" name="deskripsi" rows="3" maxlength="200"
+                                    placeholder="Deskripsi singkat produk (maks 200 karakter)">{{ old("deskripsi") }}</textarea>
+                                @error("deskripsi")
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -87,9 +87,9 @@
                             <!-- GAMBAR -->
                             <div class="col-12">
                                 <label class="form-label">Gambar Produk</label>
-                                <input type="file" class="form-control @error('gambar') is-invalid @enderror"
+                                <input type="file" class="form-control @error("gambar") is-invalid @enderror"
                                     name="gambar" onchange="previewImage()">
-                                @error('gambar')
+                                @error("gambar")
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
 
@@ -99,8 +99,8 @@
 
                         </div>
 
-                        <div class="mt-4 d-flex justify-content-end gap-2">
-                            <a href="{{ url('product') }}" class="btn btn-outline-secondary">
+                        <div class="d-flex justify-content-end mt-4 gap-2">
+                            <a href="{{ url("product") }}" class="btn btn-outline-secondary">
                                 <i class="bi bi-arrow-left"></i> Batal
                             </a>
                             <button class="btn btn-danger">

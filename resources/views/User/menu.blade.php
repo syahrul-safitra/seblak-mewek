@@ -1,156 +1,48 @@
-@extends('User.Layouts.main')
+@extends("User.Layouts.main")
 
-@section('container')
-    <div class="container-fluid page-header mb-5 position-relative overlay-bottom">
-        <div class="d-flex flex-column align-items-center justify-content-center pt-0 pt-lg-5" style="min-height: 400px">
-            <h1 class="display-4 mb-3 mt-0 mt-lg-5 text-white text-uppercase">Menu</h1>
-            <div class="d-inline-flex mb-lg-5">
-                <p class="m-0 text-white"><a class="text-white" href="">Home</a></p>
-                <p class="m-0 text-white px-2">/</p>
-                <p class="m-0 text-white">Menu</p>
-            </div>
-        </div>
-    </div>
-    <!-- Page Header End -->
-
-
-    <!-- Menu Start -->
-    <div class="container-fluid pt-5">
+@section("container")
+    <section id="menu" class="bg-light" style="padding-top: 120px; padding-bottom: 70px">
         <div class="container">
-            <div class="section-title">
-                <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Menu & Pricing</h4>
-                <h1 class="display-4">Competitive Pricing</h1>
-            </div>
-            <div class="row">
 
-                @foreach ($products as $item)
-                    <div class="col-lg-6">
-                        <div class="row align-items-center mb-5">
-                            <div class="col-4 col-sm-3">
-                                {{-- <a href="{{ url('home') }}"> --}}
-                                <img class="w-100 rounded-circle mb-3 mb-sm-0" src="{{ asset('Costumer/img/menu-1.jpg') }}"
-                                    {{-- <img class="w-100 rounded-circle mb-3 mb-sm-0" src="{{ asset('file/' . $item->gambar) }}" --}} alt="">
-                                {{-- </a> --}}
-                                <h5 class="menu-price">{{ substr($item->harga, 0, strlen($item->harga) - 3) . 'k' }}
-                                </h5>
-                            </div>
-                            <div class="col-8 col-sm-9">
-                                <a href="{{ url('cart/' . $item->id . '/' . Auth::guard('costumer')->user()->id) }}">
-                                    <h4>{{ $item->nama }}</h4>
-                                </a>
-                                <p class="m-0">{{ $item->deskripsi }}
+            <!-- Section Title -->
+            <div class="mb-5 text-center">
+                <h2 class="fw-bold text-danger">Menu Seblak</h2>
+                <p class="text-muted">
+                    Pilih seblak favoritmu dengan berbagai topping lezat 🔥
+                </p>
+            </div>
+
+            <!-- Menu List -->
+            <div class="row g-4">
+
+                <!-- ITEM -->
+                @foreach ($products as $product)
+                    <div class="col-md-4 col-lg-3">
+                        <div class="card menu-card h-100 shadow-sm">
+                            <img src="{{ asset("uploads/produk/" . $product->gambar) }}" class="card-img-top"
+                                alt="Seblak Original">
+
+                            <div class="card-body text-center">
+                                <h6 class="fw-bold">{{ $product->nama }}</h6>
+                                <p class="text-muted small mb-2">
+                                    {{ \Illuminate\Support\Str::limit($product->deskripsi, 50) }}
                                 </p>
+
+                                <h6 class="text-danger fw-bold">
+                                    Rp 15.000
+                                </h6>
+                            </div>
+
+                            <div class="card-footer border-0 bg-white text-center">
+                                <a href="{{ url("/order/" . $product->id) }}" class="btn btn-outline-danger btn-sm w-100">
+                                    Pesan Sekarang
+                                </a>
                             </div>
                         </div>
                     </div>
                 @endforeach
 
-
-                {{-- <div class="col-lg-6">
-                    <div class="row align-items-center mb-5">
-                        <div class="col-4 col-sm-3">
-                            <img class="w-100 rounded-circle mb-3 mb-sm-0" src="{{ asset('Costumer/img/menu-1.jpg') }}"
-                                alt="">
-                            <h5 class="menu-price">$5</h5>
-                        </div>
-                        <div class="col-8 col-sm-9">
-                            <h4>Black Coffee</h4>
-                            <p class="m-0">Sit lorem ipsum et diam elitr est dolor sed duo guberg sea et et lorem dolor
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="row align-items-center mb-5">
-                        <div class="col-4 col-sm-3">
-                            <img class="w-100 rounded-circle mb-3 mb-sm-0" src="{{ asset('Costumer/img/menu-1.jpg') }}"
-                                alt="">
-                            <h5 class="menu-price">$5</h5>
-                        </div>
-                        <div class="col-8 col-sm-9">
-                            <h4>Black Coffee</h4>
-                            <p class="m-0">Sit lorem ipsum et diam elitr est dolor sed duo guberg sea et et lorem dolor
-                            </p>
-                        </div>
-                    </div>
-                </div> --}}
-
-                {{-- --------------------- --}}
-                {{-- <div class="col-lg-6">
-                        <h1 class="mb-5">Hot Coffee</h1>
-                        <div class="row align-items-center mb-5">
-                            <div class="col-4 col-sm-3">
-                                <img class="w-100 rounded-circle mb-3 mb-sm-0" src="img/menu-1.jpg" alt="">
-                                <h5 class="menu-price">$5</h5>
-                            </div>
-                            <div class="col-8 col-sm-9">
-                                <h4>Black Coffee</h4>
-                                <p class="m-0">Sit lorem ipsum et diam elitr est dolor sed duo guberg sea et et lorem dolor
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row align-items-center mb-5">
-                            <div class="col-4 col-sm-3">
-                                <img class="w-100 rounded-circle mb-3 mb-sm-0" src="img/menu-2.jpg" alt="">
-                                <h5 class="menu-price">$7</h5>
-                            </div>
-                            <div class="col-8 col-sm-9">
-                                <h4>Chocolete Coffee</h4>
-                                <p class="m-0">Sit lorem ipsum et diam elitr est dolor sed duo guberg sea et et lorem dolor
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row align-items-center mb-5">
-                            <div class="col-4 col-sm-3">
-                                <img class="w-100 rounded-circle mb-3 mb-sm-0" src="img/menu-3.jpg" alt="">
-                                <h5 class="menu-price">$9</h5>
-                            </div>
-                            <div class="col-8 col-sm-9">
-                                <h4>Coffee With Milk</h4>
-                                <p class="m-0">Sit lorem ipsum et diam elitr est dolor sed duo guberg sea et et lorem dolor
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <h1 class="mb-5">Cold Coffee</h1>
-                        <div class="row align-items-center mb-5">
-                            <div class="col-4 col-sm-3">
-                                <img class="w-100 rounded-circle mb-3 mb-sm-0" src="img/menu-1.jpg" alt="">
-                                <h5 class="menu-price">$5</h5>
-                            </div>
-                            <div class="col-8 col-sm-9">
-                                <h4>Black Coffee</h4>
-                                <p class="m-0">Sit lorem ipsum et diam elitr est dolor sed duo guberg sea et et lorem dolor
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row align-items-center mb-5">
-                            <div class="col-4 col-sm-3">
-                                <img class="w-100 rounded-circle mb-3 mb-sm-0" src="img/menu-2.jpg" alt="">
-                                <h5 class="menu-price">$7</h5>
-                            </div>
-                            <div class="col-8 col-sm-9">
-                                <h4>Chocolete Coffee</h4>
-                                <p class="m-0">Sit lorem ipsum et diam elitr est dolor sed duo guberg sea et et lorem dolor
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row align-items-center mb-5">
-                            <div class="col-4 col-sm-3">
-                                <img class="w-100 rounded-circle mb-3 mb-sm-0" src="img/menu-3.jpg" alt="">
-                                <h5 class="menu-price">$9</h5>
-                            </div>
-                            <div class="col-8 col-sm-9">
-                                <h4>Coffee With Milk</h4>
-                                <p class="m-0">Sit lorem ipsum et diam elitr est dolor sed duo guberg sea et et lorem dolor
-                                </p>
-                            </div>
-                        </div>
-                    </div> --}}
             </div>
         </div>
-    </div>
-    <!-- Menu End -->
+    </section>
 @endsection

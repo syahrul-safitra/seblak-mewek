@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
@@ -15,7 +14,7 @@ class ProductController extends Controller
     public function index()
     {
         return view('Admin.Product.index', [
-            'products' => Product::latest()->get()
+            'products' => Product::latest()->get(),
         ]);
     }
 
@@ -33,19 +32,19 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama'      => 'required|string|max:100|unique:products',
-            'harga'     => 'required|numeric|min:1',
+            'nama' => 'required|string|max:100|unique:products',
+            'harga' => 'required|numeric|min:1',
             // 'kategori'  => 'required|string|max:50',
             'deskripsi' => 'nullable|string|max:200',
-            'jumlah'    => 'required|integer|min:0',
-            'gambar'    => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'jumlah' => 'required|integer|min:0',
+            'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         // 2. UPLOAD GAMBAR (MOVE)
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
 
-            $namaFile = time() . '_' . $file->getClientOriginalName();
+            $namaFile = time().'_'.$file->getClientOriginalName();
 
             $file->move(public_path('uploads/produk'), $namaFile);
 
@@ -74,7 +73,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         return view('Admin.Product.edit', [
-            'product' => $product
+            'product' => $product,
         ]);
     }
 
@@ -87,25 +86,25 @@ class ProductController extends Controller
 
         // VALIDASI
         $validated = $request->validate([
-            'nama'      => 'required|string|max:100|unique:products,nama,' . $product->nama,
-            'harga'     => 'required|numeric|min:1',
+            'nama' => 'required|string|max:100|unique:products,nama,'.$product->id,
+            'harga' => 'required|numeric|min:1',
             // 'kategori'  => 'required|string|max:50',
-            'jumlah'    => 'required|integer|min:0',
+            'jumlah' => 'required|integer|min:0',
             'deskripsi' => 'nullable|string|max:200',
-            'gambar'    => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         // JIKA ADA GAMBAR BARU
         if ($request->hasFile('gambar')) {
             // hapus gambar lama
-            $oldPath = public_path('uploads/produk/' . $product->gambar);
+            $oldPath = public_path('uploads/produk/'.$product->gambar);
             // if (file_exists($oldPath)) {
             //     unlink($oldPath);
             // }
 
-            File::delete('uploads/produk/' . $product->gambar);
+            File::delete('uploads/produk/'.$product->gambar);
             $file = $request->file('gambar');
-            $namaFile = time() . '_' . $file->getClientOriginalName();
+            $namaFile = time().'_'.$file->getClientOriginalName();
             $file->move(public_path('uploads/produk'), $namaFile);
 
             $validated['gambar'] = $namaFile;
@@ -117,16 +116,15 @@ class ProductController extends Controller
             ->with('success', 'Produk berhasil diperbarui.');
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Product $product)
     {
-        File::delete('uploads/produk/' . $product->gambar);
-        
+        File::delete('uploads/produk/'.$product->gambar);
+
         $product->delete();
 
-        return back()->with('success', "Berhasil menghapus data");
+        return back()->with('success', 'Berhasil menghapus data');
     }
 }

@@ -28,7 +28,36 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|unique:admin|unique:customers|max:50',
+            'password' => 'required|min:6',
+            'no_wa' => 'required|max:15',
+            'alamat' => 'required',
+            'foto' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        // 2. Upload foto (jika ada)
+        $namaFoto = null;
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $namaFoto = time().'_'.$file->getClientOriginalName();
+            $file->move('uploads/customer', $namaFoto);
+        }
+
+        // 3. Simpan ke database
+        Customer::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'no_wa' => $request->no_wa,
+            'alamat' => $request->alamat,
+            'foto' => $namaFoto,
+        ]);
+
+        // 4. Redirect
+        return redirect('/login')->with('success', 'Berhasil registrasi');
+
     }
 
     /**

@@ -20,12 +20,13 @@ return new class extends Migration
 
             $table->integer('jumlah');
             $table->integer('total_harga');
+            $table->string('level_pedas');
 
             $table->string('keterangan');
 
             $table->enum('status', ['pending', 'berhasil', 'gagal'])->default('pending');
 
-            $table->string('bukti');
+            $table->string('bukti')->nullable();
 
             $table->timestamps();
         });
