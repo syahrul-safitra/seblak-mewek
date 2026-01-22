@@ -1,0 +1,1 @@
+- Status (Belum_Pembayaran, Menunggu Verifikasi, Berhasil, Gagal)

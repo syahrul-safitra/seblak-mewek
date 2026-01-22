@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Order;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+
 
 class CustomerController extends Controller
 {
@@ -12,7 +16,9 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        return view("Admin.Costumer.index", [
+            'customers' => Customer::latest()->get()
+        ]);
     }
 
     /**
@@ -29,11 +35,11 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:100',
+            'name' => 'required|string|max:200',
             'email' => 'required|email|unique:admin|unique:customers|max:50',
-            'password' => 'required|min:6',
+            'password' => 'required|max:10',
             'no_wa' => 'required|max:15',
-            'alamat' => 'required',
+            'alamat' => 'required|max:200',
             'foto' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
@@ -63,9 +69,16 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Customer $customer)
+    public function show()
     {
-        //
+        $customer = Customer::first();
+
+        $orders = Order::with('product')
+        ->where('customer_id', $customer->id)
+        ->latest()
+        ->get();
+
+    return view('User.profile', compact('customer', 'orders'));
     }
 
     /**
@@ -73,7 +86,9 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return view('Admin.Costumer.edit', [
+            'customer' => $customer
+        ]);
     }
 
     /**
@@ -81,7 +96,33 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:200',
+            'email' => 'required|email|unique:admin|unique:customers,email,' . $customer->id,
+            'no_wa' => 'required|max:15',
+            'alamat' => 'required|max:200',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'password' => 'nullable|max:10',
+        ]);
+
+        $data = $request->only(['name', 'email', 'no_wa', 'alamat']);
+
+        // jika ada foto baru
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $namaFile = 'foto_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/customer'), $namaFile);
+            $data['foto'] = $namaFile;
+        }
+
+        // jika password diisi
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        $customer->update($data);
+
+        return redirect('customer')->with('success', 'Data customer berhasil diperbarui');
     }
 
     /**
@@ -89,6 +130,47 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        File::delete('uploads/customer/' . $customer->foto);
+        
+        $customer->delete();
+
+        return back()->with('success', "Berhasil menghapus data customer");
+    
     }
+
+    public function updateProfile(Request $request)
+    {
+        // $customer = auth()->user(); // atau $customer = Customer::find(auth()->id());
+
+        $customer = Customer::first();
+
+        $request->validate([
+            'name' => 'required|string|max:200',
+            'email' => 'required|email|unique:customers,email,' . $customer->id,
+            'no_wa' => 'required|max:15',
+            'alamat' => 'required|max:200',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'password' => 'nullable|max:10',
+        ]);
+
+        $data = $request->only(['name', 'email', 'no_wa', 'alamat']);
+
+        // jika ada foto baru
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $namaFile = 'foto_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/customer'), $namaFile);
+            $data['foto'] = $namaFile;
+        }
+
+        // jika password diisi
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        $customer->update($data);
+
+        return back()->with('success', 'Profile berhasil diperbarui');
+    }
+
 }

@@ -24,4 +24,19 @@ class Order extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function customer() {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function scopePendapatanBulanIni($query) {
+        $query->whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', date('m'));
+    }
+
+    public function scopeOrderBulanIni($query) {
+        return $query->whereYear('created_at', date('Y'))
+            ->whereMonth('created_at', date('m'))
+            ->count();
+    }
 }

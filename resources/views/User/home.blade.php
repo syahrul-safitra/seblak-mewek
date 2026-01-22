@@ -1,4 +1,4 @@
-@extends("User.Layouts.main")
+@extends('User.Layouts.main')
 
 <style>
     .menu-card img {
@@ -12,7 +12,7 @@
     }
 </style>
 
-@section("container")
+@section('container')
     <!-- HERO -->
     <section id="home" class="hero-seblak">
         <div class="container">
@@ -41,7 +41,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 mb-4">
-                    <img src="{{ asset("Costumer/img/logo.png") }}" class="img-fluid rounded-4 shadow">
+                    <img src="{{ asset('Costumer/img/logo.png') }}" class="img-fluid rounded-4 shadow">
                 </div>
                 <div class="col-md-6">
                     <h2 class="fw-bold mb-3">Tentang Seblak Kami</h2>
@@ -70,12 +70,15 @@
                 @foreach ($products as $product)
                     <div class="col-md-4">
                         <div class="card menu-card h-100">
-                            <img src="{{ asset("uploads/produk/" . $product->gambar) }}" class="card-img-top"
+                            <img src="{{ asset('uploads/produk/' . $product->gambar) }}" class="card-img-top"
                                 alt="">
                             <div class="card-body text-center">
                                 <h5 class="fw-bold">{{ $product->nama }}</h5>
-                                <p class="text-muted">{{ $product->deskripsi }}</p>
-                                <h6 class="text-danger fw-bold">{{ number_format($product->harga, 0, ",", ".") }}
+                                <p class="text-muted small mb-2">
+                                    {{ \Illuminate\Support\Str::limit($product->deskripsi, 50) }}
+                                </p>
+
+                                <h6 class="text-danger fw-bold">{{ number_format($product->harga, 0, ',', '.') }}
                                 </h6>
                                 <a href="#order" class="btn btn-danger rounded-pill mt-2">
                                     Pesan

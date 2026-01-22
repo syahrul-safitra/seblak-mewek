@@ -1,8 +1,8 @@
-@extends("User.Layouts.main")
+@extends('User.Layouts.main')
 
-@section("title", "Detail Pesanan")
+@section('title', 'Detail Pesanan')
 
-@section("container")
+@section('container')
     <div class="container" style="padding-top:120px; padding-bottom:80px">
         <div class="row justify-content-center">
 
@@ -12,6 +12,15 @@
 
                         <h4 class="fw-bold mb-3">Detail Pesanan</h4>
 
+                        @session('success')
+                            <div class="alert alert-success">
+                                @session('success')
+                                    {{ session('success') }}
+                                @endsession
+                            </div>
+                        @endsession
+
+
                         <div class="row mb-3">
                             <div class="col-6">
                                 <small class="text-muted">Nama Menu</small>
@@ -19,7 +28,7 @@
                             </div>
                             <div class="col-6">
                                 <small class="text-muted">Status</small><br>
-                                <span class="badge {{ $order->status == "pending" ? "bg-warning" : "bg-success" }}">
+                                <span class="badge {{ $order->status == 'pending' ? 'bg-warning' : 'bg-success' }}">
                                     {{ ucfirst($order->status) }}
                                 </span>
                             </div>
@@ -38,7 +47,7 @@
 
                         <div class="mb-3">
                             <small class="text-muted">Catatan</small>
-                            <p>{{ $order->catatan ?? "-" }}</p>
+                            <p>{{ $order->catatan ?? '-' }}</p>
                         </div>
 
                         <hr>
@@ -46,26 +55,26 @@
                         <div class="d-flex justify-content-between mb-4">
                             <h6>Total Bayar</h6>
                             <h5 class="fw-bold text-danger">
-                                Rp {{ number_format($order->total_harga, 0, ",", ".") }}
+                                Rp {{ number_format($order->total_harga, 0, ',', '.') }}
                             </h5>
                         </div>
 
                         {{-- ================= UPLOAD BUKTI ================= --}}
                         <h5 class="fw-bold mb-3">Upload Bukti Pembayaran</h5>
 
-                        @if ($order->bukti_pembayaran)
+                        @if ($order->bukti)
                             <div class="mb-3 text-center">
-                                <img src="{{ asset("uploads/bukti/" . $order->bukti_pembayaran) }}"
-                                    class="img-fluid rounded shadow" style="max-height:300px">
+                                <img src="{{ asset('uploads/bukti/' . $order->bukti) }}" class="img-fluid rounded shadow"
+                                    style="max-height:300px">
                             </div>
                         @endif
 
-                        <form action="{{ url("upload-pembayaran/" . $order->id) }}" method="POST"
+                        <form action="{{ url('upload-pembayaran/' . $order->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
 
-                            <input type="file" name="bukti_pembayaran" id="buktiInput" class="form-control"
-                                accept="image/*" required>
+                            <input type="file" name="bukti" id="buktiInput" class="form-control" accept="image/*"
+                                required>
 
                             {{-- PREVIEW --}}
                             <img id="previewBukti" class="img-fluid d-none mt-2 rounded shadow" style="max-height:300px">

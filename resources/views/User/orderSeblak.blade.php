@@ -1,14 +1,14 @@
-@extends("User.Layouts.main")
+@extends('User.Layouts.main')
 
-@section("title", "Order Seblak")
+@section('title', 'Order Seblak')
 
-@section("container")
+@section('container')
     <div class="container" style="padding-top: 120px; padding-bottom: 70px">
         <div class="row g-4 justify-content-center">
 
             <!-- GAMBAR -->
             <div class="col-md-5">
-                <img src="{{ asset("uploads/produk/" . $menu->gambar) }}" class="img-fluid rounded shadow"
+                <img src="{{ asset('uploads/produk/' . $menu->gambar) }}" class="img-fluid rounded shadow"
                     alt="{{ $menu->nama }}">
             </div>
 
@@ -24,13 +24,13 @@
                         </p>
 
                         <h5 class="text-danger fw-bold mb-3">
-                            Rp {{ number_format($menu->harga, 0, ",", ".") }}
+                            Rp {{ number_format($menu->harga, 0, ',', '.') }}
                         </h5>
 
-                        <form action="{{ url("/order") }}" method="POST">
+                        <form action="{{ url('/order') }}" method="POST">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $menu->id }}">
-                            <input type="hidden" name="customer_id" value="1">
+                            <input type="hidden" name="customer_id" value="2">
                             <input type="hidden" id="harga" value="{{ $menu->harga }}">
 
                             <input type="number" name="jumlah" id="qty" class="form-control" min="1"
@@ -56,7 +56,7 @@
                                 <h6 class="d-flex justify-content-between">
                                     <span>Total Harga</span>
                                     <span class="fw-bold text-danger" id="totalHarga">
-                                        Rp {{ number_format($menu->harga, 0, ",", ".") }}
+                                        Rp {{ number_format($menu->harga, 0, ',', '.') }}
                                     </span>
                                 </h6>
                             </div>

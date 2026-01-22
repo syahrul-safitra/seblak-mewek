@@ -22,9 +22,9 @@ return new class extends Migration
             $table->integer('total_harga');
             $table->string('level_pedas');
 
-            $table->string('keterangan');
+            $table->string('keterangan')->nullable();
 
-            $table->enum('status', ['pending', 'berhasil', 'gagal'])->default('pending');
+            $table->enum('status', ['belum_melakukan_pembayaran', 'menunggu_verfikasi', 'berhasil', 'gagal'])->default('belum_melakukan_pembayaran');
 
             $table->string('bukti')->nullable();
 

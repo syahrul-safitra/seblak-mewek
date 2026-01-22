@@ -26,7 +26,7 @@
                 <i class="bi bi-cart-check me-2"></i>Order
             </a>
 
-            <a href="{{ url('/costumer') }}" class="nav-item nav-link {{ Request::is('costumer*') ? 'active' : '' }}">
+            <a href="{{ url('/customer') }}" class="nav-item nav-link {{ Request::is('customer*') ? 'active' : '' }}">
                 <i class="bi bi-people me-2"></i>Customer
             </a>
 

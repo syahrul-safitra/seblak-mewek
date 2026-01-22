@@ -4,69 +4,112 @@
     <div class="row g-4">
         <div class="col-sm-12">
             <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4">Edit Costumer</h6>
-                <form action="{{ url('costumer/' . $costumer->id) }}" method="POST" enctype="multipart/form-data">
+                <h6 class="mb-4">Edit Customer</h6>
+
+                {{-- ERROR --}}
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ url('customer/' . $customer->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nama</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-                            id="name" value="{{ @old('name', $costumer->name) }}" autocomplete="off" autofocus>
-                        @error('name')
-                            <div class="invalid-feedback text-red">{{ $message }}</div>
-                        @enderror
+
+                    <div class="row">
+
+                        {{-- NAMA --}}
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nama</label>
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                                value="{{ old('name', $customer->name) }}">
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        {{-- EMAIL --}}
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                                value="{{ old('email', $customer->email) }}">
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        {{-- NO WA --}}
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">No WhatsApp</label>
+                            <input type="text" name="no_wa" class="form-control @error('no_wa') is-invalid @enderror"
+                                value="{{ old('no_wa', $customer->no_wa) }}">
+                            @error('no_wa')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        {{-- PASSWORD (OPSIONAL) --}}
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Password (Opsional)</label>
+                            <input type="password" name="password"
+                                class="form-control @error('password') is-invalid @enderror"
+                                placeholder="Kosongkan jika tidak diubah">
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        {{-- ALAMAT --}}
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">Alamat</label>
+                            <textarea name="alamat" rows="3" class="form-control @error('alamat') is-invalid @enderror">{{ old('alamat', $customer->alamat) }}</textarea>
+                            @error('alamat')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        {{-- FOTO --}}
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label">Foto</label>
+                            <input type="file" name="foto" class="form-control" onchange="previewImage()">
+
+                            @if ($customer->foto)
+                                <img id="img-preview" src="{{ asset('uploads/customer/' . $customer->foto) }}"
+                                    class="mt-3 rounded shadow-sm" style="width:200px;height:200px;object-fit:cover">
+                            @else
+                                <img id="img-preview" class="mt-3 d-none rounded shadow-sm"
+                                    style="width:200px;height:200px;object-fit:cover">
+                            @endif
+                        </div>
+
                     </div>
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" min="1" class="form-control @error('email') is-invalid @enderror"
-                            name="email" id="email" value="{{ @old('email', $costumer->email) }}" autocomplete="off">
-                        @error('email')
-                            <div class="invalid-feedback text-red">{{ $message }}</div>
-                        @enderror
+                    <div class="mt-4 d-flex justify-content-end gap-2">
+                        <a href="{{ url('customer') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Batal
+                        </a>
+                        <button class="btn btn-danger">
+                            <i class="bi bi-save me-1"></i> Update
+                        </button>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="text" min="0" class="form-control @error('password') is-invalid @enderror"
-                            name="password" id="password" value="{{ @old('password') }}" autocomplete="off">
-                        @error('password')
-                            <div class="invalid-feedback text-red">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="no_wa" class="form-label">No WA</label>
-                        <input type="text" min="0" class="form-control @error('no_wa') is-invalid @enderror"
-                            name="no_wa" id="no_wa" value="{{ @old('no_wa', $costumer->no_wa) }}" autocomplete="off">
-                        @error('no_wa')
-                            <div class="invalid-feedback text-red">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="alamat" class="form-label">Alamat</label>
-                        <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat"
-                            id="alamat" value="{{ @old('alamat', $costumer->alamat) }}" autocomplete="off">
-                        @error('alamat')
-                            <div class="invalid-feedback text-red">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="gambar" class="form-label">Gambar</label>
-                        <input type="file" class="form-control" id="image" onchange="previewImage()" name="gambar">
-                        <img class="mt-4" id="img-preview" style="width: 200px; height: 200px"
-                            src="{{ asset('file/' . $costumer->gambar) }}">
-                        @error('gambar')
-                            <p class="text-danger">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <a href="{{ url('dashboard/informasi') }}" class="btn btn-warning me-2">Batal</a>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
             </div>
         </div>
     </div>
+
+    {{-- SCRIPT PREVIEW FOTO --}}
+    <script>
+        function previewImage() {
+            const image = document.querySelector('input[name="foto"]');
+            const preview = document.getElementById('img-preview');
+
+            preview.src = URL.createObjectURL(image.files[0]);
+            preview.classList.remove('d-none');
+        }
+    </script>
 @endsection

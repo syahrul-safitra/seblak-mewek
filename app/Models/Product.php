@@ -18,4 +18,8 @@ class Product extends Model
         'jumlah',
     ];
 
+    public function order() {
+        $this->hasMany(Order::class);
+    }
+
 }
