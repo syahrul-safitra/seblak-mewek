@@ -28,9 +28,25 @@
                             </div>
                             <div class="col-6">
                                 <small class="text-muted">Status</small><br>
-                                <span class="badge {{ $order->status == 'pending' ? 'bg-warning' : 'bg-success' }}">
-                                    {{ ucfirst($order->status) }}
-                                </span>
+
+                                @if ($order->status == 'belum_melakukan_pembayaran')
+                                    <span class="badge  bg-warning">
+                                        {{ ucfirst($order->status) }}
+                                    </span>
+                                @elseif ($order->status == 'menunggu_verifikasi')
+                                    <span class="badge bg-secondary ">
+                                        {{ ucfirst($order->status) }}
+                                    </span>
+                                @elseif ($order->status == 'gagal')
+                                    <span class="badge bg-danger">
+                                        {{ ucfirst($order->status) }}
+                                    </span>
+                                @else
+                                    <span class="badge bg-success">
+                                        {{ ucfirst($order->status) }}
+                                    </span>
+                                @endif
+
                             </div>
                         </div>
 

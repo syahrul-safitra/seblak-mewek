@@ -1,8 +1,8 @@
-@extends("Auth.main")
+@extends('Auth.main')
 
-@section("title", "Login Customer")
+@section('title', 'Login Customer')
 
-@section("container")
+@section('container')
     <div class="row w-100 justify-content-center">
         <div class="col-lg-8">
             <div class="card auth-card overflow-hidden shadow-lg">
@@ -22,30 +22,30 @@
                     <!-- RIGHT FORM -->
                     <div class="col-md-7 bg-white">
                         <div class="p-md-5 p-4">
-                            <h4 class="fw-bold mb-4 text-center">Login Customer</h4>
+                            <h4 class="fw-bold mb-4 text-center">Login</h4>
 
                             {{-- Session Message --}}
-                            @if (session("success"))
+                            @if (session('success'))
                                 <div class="alert alert-success">
-                                    {{ session("success") }}
+                                    {{ session('success') }}
                                 </div>
                             @endif
 
-                            @if (session("error"))
+                            @if (session('loginError'))
                                 <div class="alert alert-danger">
-                                    {{ session("error") }}
+                                    {{ session('loginError') }}
                                 </div>
                             @endif
 
-                            <form action="{{ url("login") }}" method="POST">
+                            <form action="{{ url('login') }}" method="POST">
                                 @csrf
 
                                 <div class="mb-3">
                                     <label class="form-label">Email</label>
                                     <input type="email" name="email"
-                                        class="form-control @error("email") is-invalid @enderror"
-                                        value="{{ old("email") }}">
-                                    @error("email")
+                                        class="form-control @error('email') is-invalid @enderror"
+                                        value="{{ old('email') }}">
+                                    @error('email')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -53,8 +53,8 @@
                                 <div class="mb-3">
                                     <label class="form-label">Password</label>
                                     <input type="password" name="password"
-                                        class="form-control @error("password") is-invalid @enderror">
-                                    @error("password")
+                                        class="form-control @error('password') is-invalid @enderror">
+                                    @error('password')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -65,7 +65,7 @@
 
                                 <p class="mb-0 mt-3 text-center">
                                     Belum punya akun?
-                                    <a href="{{ url("/register") }}">Daftar sekarang</a>
+                                    <a href="{{ url('/register') }}">Daftar sekarang</a>
                                 </p>
                             </form>
 

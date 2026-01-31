@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +28,10 @@ class OrderController extends Controller
      */
     public function create(Product $product)
     {
-        return view('User.orderSeblak', ['menu' => $product]);
+        return view('User.orderSeblak',
+        ['menu' => $product,
+            'no_wa' => User::select('no_wa')->first()
+        ]);
     }
 
     /**
@@ -87,7 +91,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return view('User.detail-order-seblak', ['order' => $order]);
+        return view('User.detail-order-seblak', ['order' => $order, 'no_wa' => User::select('no_wa')->first()]);
     }
 
     /**

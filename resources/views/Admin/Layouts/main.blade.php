@@ -47,16 +47,17 @@
             <!-- Navbar -->
             <nav class="navbar navbar-expand navbar-dark sticky-top px-4 py-0"
                 style="background: linear-gradient(90deg,#ff512f,#dd2476);">
-                <a href="#" class="sidebar-toggler flex-shrink-0 text-white">
+                <a href="#" class="sidebar-toggler flex-shrink-0 text-danger">
                     <i class="fa fa-bars"></i>
                 </a>
 
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-2" src="{{ asset('Admin/img/user.jpg') }}"
-                                style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">Admin</span>
+                        <a href="#" class="nav-link dropdown-toggle  d-flex align-items-center text-danger"
+                            data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-2" style="font-size: 1.5rem;"></i>
+
+                            <span class="d-none d-lg-inline-flex text-white">Admin</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-3 shadow-sm m-0">
                             <form action="{{ url('/logout') }}" method="POST">

@@ -80,7 +80,7 @@
 
                                 <h6 class="text-danger fw-bold">{{ number_format($product->harga, 0, ',', '.') }}
                                 </h6>
-                                <a href="#order" class="btn btn-danger rounded-pill mt-2">
+                                <a href="{{ url('/order/' . $product->id) }}" class="btn btn-danger rounded-pill mt-2">
                                     Pesan
                                 </a>
                             </div>

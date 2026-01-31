@@ -7,7 +7,9 @@
         </a>
 
         <div class="d-flex align-items-center ms-4 mb-4">
-            <img class="rounded-circle" src="{{ asset('Admin/img/user.jpg') }}" style="width: 40px; height: 40px;">
+            {{-- <img class="rounded-circle" src="{{ asset('Admin/img/user.jpg') }}" style="width: 40px; height: 40px;"> --}}
+            {{-- <i class="bi bi-person-circle" style="width: 40px; height: 40px;"></i> --}}
+            <i class="bi bi-person-circle" style="font-size: 30px"></i>
             <div class="ms-3">
                 <span class="fw-semibold">Administrator</span>
             </div>
@@ -36,7 +38,7 @@
 
             <hr>
 
-            <a href="{{ url('/set-admin/1') }}" class="nav-item nav-link">
+            <a href="{{ url('/set-admin') }}" class="nav-item nav-link">
                 <i class="bi bi-person-gear me-2"></i>Admin
             </a>
         </div>

@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
     public function index()
     {
+
+        if (Auth::guard('admin')->check() || Auth::guard('customer')->check()) {
+            return redirect('/');
+        }
+
         return view('Auth.login');
     }
 
@@ -32,5 +38,12 @@ class AuthController extends Controller
         }
 
         return back()->with('loginError', 'Login Failed');
+    }
+
+    public function logout(Request $request) {
+        Auth::guard('admin')->logout();
+        Auth::guard('customer')->logout();
+
+        return redirect('/');
     }
 }

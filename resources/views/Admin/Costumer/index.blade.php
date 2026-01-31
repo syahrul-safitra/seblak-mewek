@@ -28,10 +28,6 @@
                 <h4 class="mb-0">
                     <i class="bi bi-people-fill me-2 text-danger"></i>Data Customer
                 </h4>
-
-                <a href="{{ url('admin/customer/create') }}" class="btn btn-danger">
-                    <i class="bi bi-plus-circle me-1"></i>Tambah Customer
-                </a>
             </div>
 
             <!-- ALERT -->
